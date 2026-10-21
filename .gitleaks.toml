@@ -1,0 +1,13 @@
+# gitleaks (CI "Secret scan"): the default rules plus one narrow exception.
+#
+# Public EVM addresses (0x + 40 hex) are not secrets, but next to words like "token" the generic-api-key
+# rule flags them (e.g. the CHOG and USDC contract addresses in apps/server/test). Private keys are
+# 0x + 64 hex and stay flagged. `[allowlist]` (not `[[allowlists]]`) so gitleaks 8.24 in CI reads it too.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public EVM addresses"
+regexTarget = "secret"
+regexes = ['''^0x[0-9a-fA-F]{40}$''']

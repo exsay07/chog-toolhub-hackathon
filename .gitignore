@@ -1,0 +1,35 @@
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+.data/
+playwright-report/
+test-results/
+apps/agent/.agent-data/
+
+# User-provided farming software (contains keys/data) — never commit
+perpl soft/
+bulk soft/
+apps/web/public/guide/*.png
+
+# Local archives (hand-offs, exports) never go into the repository.
+*.zip
+
+# Production secrets and database dumps
+deploy/.env
+deploy/.env.production
+deploy/backups/
+!deploy/.env.production.example
+
+# Owner's local notes and source files (kept on the PC, not published)
+otka.txt
+promt.txt
+chog tools.png
+
+# Off-site backup credentials (deploy/offsite-setup.sh)
+*.r2.env
+.r2.env

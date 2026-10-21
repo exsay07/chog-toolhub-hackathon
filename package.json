@@ -1,0 +1,50 @@
+{
+  "name": "chog-toolhub",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @chog/server & npm run dev -w @chog/web",
+    "dev:server": "npm run dev -w @chog/server",
+    "dev:web": "npm run dev -w @chog/web",
+    "dev:agent": "npm run dev -w @chog/agent",
+    "build": "npm run build -w @chog/shared && npm run build -w @chog/server && npm run build -w @chog/web && npm run build -w @chog/agent",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "db:generate": "npm run db:generate -w @chog/server",
+    "db:migrate": "npm run db:migrate -w @chog/server",
+    "audit:deps": "npm audit --omit=dev",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "loadtest": "node scripts/loadtest.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@playwright/test": "1.64.1",
+    "@types/node": "^24.0.0",
+    "eslint": "10.13.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "globals": "^16.0.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2",
+    "vitest": "5.0.5",
+    "autocannon": "8.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.18.20": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.27.7": true,
+    "esbuild@0.28.2": true
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-19T15:30:45.732Z",
+  "machine": {
+    "platform": "win32 10.0.26200",
+    "cpu": "AMD Ryzen 5 7400F 6-Core Processor             ",
+    "cores": 12,
+    "memGB": 34,
+    "node": "v24.15.0"
+  },
+  "database": "pglite (embedded, single connection — NOT representative of production Postgres)",
+  "note": "Load generator and server on the same machine; single server process; no reverse proxy.",
+  "results": [
+    {
+      "title": "GET /readyz (baseline + DB ping)",
+      "connections": 100,
+      "durationSec": 10,
+      "reqPerSec": 3006,
+      "totalRequests": 33058,
+      "latencyMs": {
+        "p50": 32,
+        "p90": 37,
+        "p99": 47,
+        "max": 76
+      },
+      "non2xx": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "status": {
+        "200": {
+          "count": 33058
+        }
+      }
+    },
+    {
+      "title": "GET /api/auth/me (session lookup + DB)",
+      "connections": 100,
+      "durationSec": 10,
+      "reqPerSec": 1655,
+      "totalRequests": 18203,
+      "latencyMs": {
+        "p50": 58,
+        "p90": 70,
+        "p99": 86,
+        "max": 250
+      },
+      "non2xx": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "status": {
+        "200": {
+          "count": 18203
+        }
+      }
+    },
+    {
+      "title": "GET /api/settings (authenticated DB read)",
+      "connections": 100,
+      "durationSec": 10,
+      "reqPerSec": 2148,
+      "totalRequests": 23628,
+      "latencyMs": {
+        "p50": 45,
+        "p90": 51,
+        "p99": 61,
+        "max": 180
+      },
+      "non2xx": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "status": {
+        "200": {
+          "count": 23628
+        }
+      }
+    },
+    {
+      "title": "GET /api/market/search (shared cache)",
+      "connections": 100,
+      "durationSec": 10,
+      "reqPerSec": 1788,
+      "totalRequests": 17880,
+      "latencyMs": {
+        "p50": 55,
+        "p90": 63,
+        "p99": 76,
+        "max": 90
+      },
+      "non2xx": 0,
+      "errors": 0,
+      "timeouts": 0,
+      "status": {
+        "200": {
+          "count": 17880
+        }
+      }
+    },
+    {
+      "title": "POST /api/automation-logs (DB write, per-route limit 120/min)",
+      "connections": 100,
+      "durationSec": 10,
+      "reqPerSec": 7893,
+      "totalRequests": 86813,
+      "latencyMs": {
+        "p50": 12,
+        "p90": 13,
+        "p99": 17,
+        "max": 156
+      },
+      "non2xx": 86693,
+      "errors": 0,
+      "timeouts": 0,
+      "status": {
+        "200": {
+          "count": 120
+        },
+        "429": {
+          "count": 86693
+        }
+      }
+    },
+    {
+      "title": "POST /api/auth/nonce (auth rate limit 20/min/IP)",
+      "connections": 100,
+      "durationSec": 10,
+      "reqPerSec": 7966,
+      "totalRequests": 23895,
+      "latencyMs": {
+        "p50": 12,
+        "p90": 13,
+        "p99": 16,
+        "max": 44
+      },
+      "non2xx": 23885,
+      "errors": 0,
+      "timeouts": 0,
+      "status": {
+        "200": {
+          "count": 10
+        },
+        "429": {
+          "count": 23885
+        }
+      }
+    },
+    {
+      "title": "WebSocket 1000 concurrent authenticated connections (10 users)",
+      "attempted": 1000,
+      "connected": 1000,
+      "failed": 0,
+      "stillOpenAfter5s": 1000,
+      "connectMs": {
+        "p50": 291,
+        "p95": 362,
+        "p99": 367
+      },
+      "totalSetupMs": 5447,
+      "serverConnectionsReported": 1000,
+      "serverRssMB": 411,
+      "serverHeapUsedMB": 75,
+      "messagesReceived": 2000
+    }
+  ]
+}

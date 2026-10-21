@@ -1,0 +1,12 @@
+dist
+node_modules
+coverage
+apps/server/drizzle
+package-lock.json
+promt.txt
+docs/perf-results.json
+test-results
+playwright-report
+apps/agent/adapters/vendor
+perpl soft
+bulk soft

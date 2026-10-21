@@ -1,0 +1,25 @@
+{
+  "name": "@chog/agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Chog Toolhub local execution agent (loopback-only). Runs farming tasks on the user's own machine.",
+  "bin": {
+    "chog-agent": "dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "build": "node build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@chog/shared": "*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.27.0",
+    "tsx": "4.23.15"
+  }
+}

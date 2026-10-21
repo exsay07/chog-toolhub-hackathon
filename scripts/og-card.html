@@ -1,0 +1,196 @@
+<!doctype html>
+<!-- Social preview card (1200x630) for link shares on X / Telegram / Discord.
+     Rendered to apps/web/public/og.png by scripts/og-card.mjs; edit here and re-run. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: VT323;
+        src: url('../node_modules/@fontsource/vt323/files/vt323-latin-400-normal.woff2') format('woff2');
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        background: #0b0b0d;
+        overflow: hidden;
+      }
+      body {
+        font-family: VT323, monospace;
+        color: #e9e7f2;
+        text-shadow:
+          -1px 0 rgba(255, 40, 80, 0.45),
+          1px 0 rgba(40, 170, 255, 0.45),
+          0 0 10px rgba(220, 235, 255, 0.18);
+        position: relative;
+      }
+      .noise {
+        position: absolute;
+        inset: 0;
+        color: #2a2a33;
+        font-size: 22px;
+        line-height: 1;
+      }
+      .noise span {
+        position: absolute;
+      }
+      .scan {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 4px);
+      }
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 34% 50%, transparent 40%, rgba(0, 0, 0, 0.65) 100%);
+      }
+      .tv {
+        position: absolute;
+        left: 70px;
+        top: 95px;
+        width: 420px;
+        height: 420px;
+        border-radius: 34px;
+        background: #121216;
+        border: 2px solid #2b2b35;
+        box-shadow:
+          0 0 0 10px #17171c,
+          0 30px 80px rgba(0, 0, 0, 0.6),
+          0 0 120px rgba(131, 110, 249, 0.18);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .tv img {
+        width: 360px;
+        height: 360px;
+        image-rendering: pixelated;
+        border-radius: 18px;
+        filter: contrast(1.08) saturate(1.05) drop-shadow(-2px 0 rgba(255, 40, 80, 0.5))
+          drop-shadow(2px 0 rgba(40, 170, 255, 0.5));
+      }
+      .tv::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0 2px, transparent 2px 5px),
+          radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.07), transparent 60%);
+      }
+      .right {
+        position: absolute;
+        left: 560px;
+        top: 92px;
+        right: 60px;
+      }
+      h1 {
+        font-size: 104px;
+        line-height: 0.9;
+        letter-spacing: 1px;
+      }
+      .tag {
+        margin-top: 18px;
+        font-size: 38px;
+        color: #b9b5cc;
+        line-height: 1.05;
+      }
+      .chips {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .chip {
+        font-size: 27px;
+        padding: 4px 14px 2px;
+        border: 1.5px solid #3a3550;
+        border-radius: 8px;
+        background: rgba(131, 110, 249, 0.12);
+        color: #e4e0f7;
+      }
+      .foot {
+        position: absolute;
+        left: 560px;
+        right: 60px;
+        bottom: 70px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .url {
+        font-size: 40px;
+        color: #a99bff;
+      }
+      .chains {
+        margin-left: auto;
+        display: flex;
+        gap: 6px;
+      }
+      .chains img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px #0b0b0d;
+      }
+      .badge {
+        position: absolute;
+        left: 70px;
+        top: 538px;
+        font-size: 26px;
+        color: #8f8aa6;
+        width: 420px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="noise" id="noise"></div>
+    <div class="vignette"></div>
+    <div class="tv"><img src="../apps/web/public/brand/avatar.webp" /></div>
+    <div class="badge">HOLDER ACCESS · CHOG GENESIS ON MONAD</div>
+    <div class="right">
+      <h1>CHOG TOOLHUB</h1>
+      <div class="tag">The trading workstation for Chog Genesis holders.</div>
+      <div class="chips">
+        <span class="chip">TOKEN TERMINAL</span>
+        <span class="chip">LAUNCH SNIPER</span>
+        <span class="chip">NFT MINTS</span>
+        <span class="chip">COPY TRADING</span>
+        <span class="chip">PERPS FARM</span>
+        <span class="chip">PNL CARDS</span>
+      </div>
+    </div>
+    <div class="foot">
+      <span class="url">chogtoolhub.space</span>
+      <span class="chains">
+        <img src="../apps/web/public/chains/monad.webp" /><img
+          src="../apps/web/public/chains/ethereum.webp"
+        />
+        <img src="../apps/web/public/chains/base.webp" /><img src="../apps/web/public/chains/solana.webp" />
+        <img src="../apps/web/public/chains/bsc.webp" /><img src="../apps/web/public/chains/hyperevm.webp" />
+      </span>
+    </div>
+    <div class="scan"></div>
+    <script>
+      // Deterministic glyph field (same card every render).
+      let seed = 7;
+      const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+      const glyphs = '01<>/\\*+=~:;?&#@_-|';
+      const n = document.getElementById('noise');
+      for (let i = 0; i < 140; i++) {
+        const s = document.createElement('span');
+        s.textContent = glyphs[Math.floor(rnd() * glyphs.length)];
+        s.style.left = `${rnd() * 1200}px`;
+        s.style.top = `${rnd() * 630}px`;
+        s.style.opacity = String(0.4 + rnd() * 0.6);
+        n.appendChild(s);
+      }
+    </script>
+  </body>
+</html>

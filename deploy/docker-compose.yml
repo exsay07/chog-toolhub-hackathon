@@ -1,0 +1,68 @@
+# Chog Toolhub production stack (one small VPS is enough for hundreds of users):
+#   app     — API + web app (port never published: reachable only through the Cloudflare Tunnel)
+#   db      — PostgreSQL 17, data on a named volume
+#   backup  — daily compressed dumps, kept 7 days / 4 weeks / 6 months (deploy/backups)
+#   tunnel  — Cloudflare Tunnel: HTTPS on your domain, DDoS protection, real visitor IPs
+# Start:  cd deploy && cp .env.production.example .env.production  (fill it in)  &&  docker compose up -d --build
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: chog
+      POSTGRES_USER: chog
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in deploy/.env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U chog -d chog']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: ..
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env.production
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://chog:${POSTGRES_PASSWORD}@db:5432/chog
+      HOST: 0.0.0.0
+      PORT: '8787'
+      # Behind Cloudflare: rate limits follow each visitor's real IP.
+      TRUST_PROXY: 'true'
+      CLIENT_IP_HEADER: cf-connecting-ip
+
+  backup:
+    image: prodrigestivill/postgres-backup-local:17
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: chog
+      POSTGRES_USER: chog
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SCHEDULE: '@daily'
+      BACKUP_KEEP_DAYS: '7'
+      BACKUP_KEEP_WEEKS: '4'
+      BACKUP_KEEP_MONTHS: '6'
+      HEALTHCHECK_PORT: '8080'
+    volumes:
+      - ./backups:/backups
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    depends_on:
+      - app
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?set CLOUDFLARE_TUNNEL_TOKEN in deploy/.env}
+
+volumes:
+  pgdata:
